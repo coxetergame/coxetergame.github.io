@@ -1,4 +1,4 @@
-function tridiagonalMatrix(var rank, var coeffs) {
+function tridiagonalMatrix(rank, coeffs) {
     // Generate a grid of size `rank`.
     var matrix = [...Array(rank)].map(e => Array(rank).fill(0));
 
@@ -13,7 +13,7 @@ function tridiagonalMatrix(var rank, var coeffs) {
     return matrix;
 }
 
-function parseLieAlgebra(var algebra) {
+function parseLieAlgebra(algebra) {
     // Return if `algebra` corresponds to a Cartan matrix.
     // TODO: Should we bother to handle the exceptional overlaps? (E3, etc.)
    
@@ -24,7 +24,7 @@ function parseLieAlgebra(var algebra) {
     var valid = false;
     if (groups !== null) {
         var type = groups[1];
-        var rank = groups[2];
+        var rank = Number(groups[2]);
 
         switch (type) {
         case "A":
@@ -57,11 +57,11 @@ function parseLieAlgebra(var algebra) {
     }
 }
 
-function cartanMatrix(var algebra) {
+function cartanMatrix(algebra) {
     // Return the Cartan matrix corresponding to the given string as an array of arrays.
     // Cf. Humphreys page 59.
 
-    var type, rank = parseLieAlgebra(algebra);
+    var [type, rank] = parseLieAlgebra(algebra);
 
     var matrix = tridiagonalMatrix(rank, [-1, 2, -1]);
     switch (type) {
