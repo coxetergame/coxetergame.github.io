@@ -1,3 +1,32 @@
+function numbersGame(algebra, container) {
+    //
+    var matrix = cartanMatrix(algebra);
+    var [nodes, edges] = matrixToGraph(matrix);
+
+    var graphData = {nodes: nodes, edges: edges};
+
+    var network = new vis.Network(container, graphData, {});
+    return network;
+}
+
+function matrixToGraph(matrix) {
+    var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i, population: null}));
+    var edges = [];
+    for (var from = 0; from < matrix.length; from++) {
+        for (var to = from; to < matrix[from].length; to++ ) {
+            var entry = matrix[from][to];
+            var transpose_entry = matrix[to][from];
+
+            // We can be assured that these will always be both zero or both negative for
+            // Cartan matrices, but it doesn't hurt to make absolutely sure
+            if (entry < 0 && transpose_entry < 0) {
+                edges.push({from: from, to: to, amplitude: -1 * entry, reverseAmplitude: -1 * transpose_entry});
+            }
+        }
+    }
+    return [nodes, edges]
+}
+
 function tridiagonalMatrix(rank, coeffs) {
     // Generate a grid of size `rank`.
     var matrix = [...Array(rank)].map(e => Array(rank).fill(0));
