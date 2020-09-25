@@ -1,11 +1,34 @@
-function numbersGame(algebra, container) {
-    //
-    var matrix = cartanMatrix(algebra);
-    var [nodes, edges] = matrixToGraph(matrix);
+class NumbersGame {
+    constructor(algebra, state) {
+        this.matrix = cartanMatrix(algebra);
+        this.state = state;
+    }
 
-    var graphData = {nodes: nodes, edges: edges};
+    fireNode(firedIdx) {
+        var firedPopulation = this.state[firedIdx];
+        if (firedPopulation >= 0) {
+            return;
+        }
+        var nextState = Array.from(this.state, (x, toIdx) => (x - this.matrix[firedIdx][toIdx] * firedPopulation));
 
+        this.state = nextState;
+    }
+}
+
+function numbersGame(algebra, state, container) {
+    var game = new NumbersGame(algebra, state);
+
+    var graphData = matrixToGraph(game.matrix);
     var network = new vis.Network(container, graphData, {});
+
+    network.on("click", function (params) {
+        if (params.nodes.length > 0) {
+            game.fireNode(params.nodes[0]);
+            console.log(params.nodes[0], game.state);
+
+        }
+    });
+
     return network;
 }
 
@@ -24,7 +47,8 @@ function matrixToGraph(matrix) {
             }
         }
     }
-    return [nodes, edges]
+    var graphData = {nodes: nodes, edges: edges};
+    return graphData;
 }
 
 function tridiagonalMatrix(rank, coeffs) {
