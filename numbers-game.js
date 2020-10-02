@@ -32,13 +32,48 @@ function numbersGame(algebra, state, container) {
     network.on("click", function (params) {
         if (params.nodes.length > 0) {
             game.fireNode(params.nodes[0]);
-            console.log(params.nodes[0], game.state);
 
             for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
-                game.nodes.update({id: nodeIdx, label: game.state[nodeIdx].toString()});
+                var newProps = {
+                    id: nodeIdx,
+                    label: game.state[nodeIdx].toString()
+                };
+                game.nodes.update(newProps);
             }
         }
     });
+
+
+    var networkOptions = {
+        nodes: {
+            borderWidth: 2,
+            color: {
+                border: 'black',
+                background: 'white',
+                highlight: {
+                    border: 'black',
+                    background: 'white'
+                }
+            },
+            fixed: true,        // Disable physics simulation.
+            shape: 'circle',
+            font: {
+                face: 'Computer Modern Serif'
+            }
+        },
+        edges: {
+            smooth: false,      // Draw edges as straight lines.
+            width: 2
+        },
+        layout: {
+            hierarchical: {
+                enabled: true,  // Use a deterministic layout.
+                direction: 'LR' // Prefer left-right orientation.
+            },
+        }
+    };
+
+    network.setOptions(networkOptions);
 
     return network;
 }
