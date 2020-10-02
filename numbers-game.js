@@ -45,8 +45,9 @@ function numbersGame(algebra, state, container) {
 
 
     var networkOptions = {
+        height: '200px',
         nodes: {
-            borderWidth: 2,
+            borderWidth: 1,
             color: {
                 border: 'black',
                 background: 'white',
@@ -63,7 +64,7 @@ function numbersGame(algebra, state, container) {
         },
         edges: {
             smooth: false,      // Draw edges as straight lines.
-            width: 2
+            width: 1.5
         },
         layout: {
             hierarchical: {
