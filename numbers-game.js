@@ -43,9 +43,21 @@ function numbersGame(algebra, state, container) {
     return network;
 }
 
+function isSquare(matrix) {
+    var rows = matrix.length;
+    for (var i = 0; i < rows; i++) {
+        if (matrix[i].length != rows) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function matrixToGraph(matrix) {
-    var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i, population: null}));
+    if (!isSquare(matrix)) {
+        throw "Cannot form graph from nonsquare matrix.";
+    }
+    var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i}));
     var edges = [];
     for (var from = 0; from < matrix.length; from++) {
         for (var to = from; to < matrix[from].length; to++ ) {
