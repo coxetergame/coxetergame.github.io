@@ -1,6 +1,11 @@
 class NumbersGame {
     constructor(algebra, state) {
         this.matrix = cartanMatrix(algebra);
+
+        var graphData = matrixToGraph(this.matrix);
+        this.nodes = new vis.DataSet(graphData.nodes);
+        this.edges = new vis.DataSet(graphData.edges);
+
         this.state = state;
     }
 
@@ -18,19 +23,26 @@ class NumbersGame {
 function numbersGame(algebra, state, container) {
     var game = new NumbersGame(algebra, state);
 
-    var graphData = matrixToGraph(game.matrix);
+    var graphData = {nodes: game.nodes, edges: game.edges};
     var network = new vis.Network(container, graphData, {});
+    for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
+        game.nodes.update({id: nodeIdx, label: game.state[nodeIdx].toString()});
+    }
 
     network.on("click", function (params) {
         if (params.nodes.length > 0) {
             game.fireNode(params.nodes[0]);
             console.log(params.nodes[0], game.state);
 
+            for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
+                game.nodes.update({id: nodeIdx, label: game.state[nodeIdx].toString()});
+            }
         }
     });
 
     return network;
 }
+
 
 function matrixToGraph(matrix) {
     var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i, population: null}));
