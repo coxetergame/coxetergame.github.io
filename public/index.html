@@ -24,11 +24,24 @@
 		<p>Here's another: \[\lim_{n \to \infty} \frac{e^n n!}{n^{n + 1/2}} = \sqrt{2 \pi}\]</p>
 		<p>Here are some action items for Sasha for this week:</p>
 		<ol>
+			<li>Allow the graph labels to be variables. Represent the graph state as a matrix whose columns are nodes and rows are variables. (Will need to fake KaTeX since it won't get inside the canvas.)
+				What I mean: start with
+				\[
+				\begin{bmatrix}
+				1 & 0 & 0 & 0 \\
+				0 & 1 & 0 & 0 \\
+				0 & 0 & 1 & 0 \\
+				0 & 0 & 0 & 1
+				\end{bmatrix},
+				\]
+				representing an initial state where node 0 has population \(a\), node 1 has population \(b\), etc. State updates are (nonelementary) column operations on this matrix, and translating into variable labels is easy.
+			</li>
+			<li>Inline KaTeX is slightly too big for my liking (font-size is 1.21rem.) This is an easy CSS fix.</li>
 			<li>Ideally we'd generate this content out of a \(\TeX\) file, but we're not quite there yet.</li>
 			<li>An fully interactive ING would be cool -- GCM editor, graph editor, etc.</li>
-			<li>Need to make the arrowheads for non-1 edges.</li>
+			<li>Make the arrowheads for non-1 edges.</li>
 			<li>You'll notice the labels below don't center within their nodes. As I found out yesterday, this is a missing feature in Vis.js, so it's probably over our heads.</li>
-			<li>Need to self-host the assets (CSS, scripts, fonts.)</li>
+			<li>Self-host the assets (CSS, scripts, fonts.)</li>
 		</ol>
 		<figure>
 			<div id="graph" style="border: 1px solid black;"></div>
