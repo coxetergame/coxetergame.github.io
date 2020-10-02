@@ -1,6 +1,11 @@
 class NumbersGame {
     constructor(algebra, state) {
         this.matrix = cartanMatrix(algebra);
+
+        var graphData = matrixToGraph(this.matrix);
+        this.nodes = new vis.DataSet(graphData.nodes);
+        this.edges = new vis.DataSet(graphData.edges);
+
         this.state = state;
     }
 
@@ -18,22 +23,77 @@ class NumbersGame {
 function numbersGame(algebra, state, container) {
     var game = new NumbersGame(algebra, state);
 
-    var graphData = matrixToGraph(game.matrix);
+    var graphData = {nodes: game.nodes, edges: game.edges};
     var network = new vis.Network(container, graphData, {});
+    for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
+        game.nodes.update({id: nodeIdx, label: game.state[nodeIdx].toString()});
+    }
 
     network.on("click", function (params) {
         if (params.nodes.length > 0) {
             game.fireNode(params.nodes[0]);
-            console.log(params.nodes[0], game.state);
 
+            for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
+                var newProps = {
+                    id: nodeIdx,
+                    label: game.state[nodeIdx].toString()
+                };
+                game.nodes.update(newProps);
+            }
         }
     });
+
+
+    var networkOptions = {
+        height: '200px',
+        nodes: {
+            borderWidth: 1,
+            color: {
+                border: 'black',
+                background: 'white',
+                highlight: {
+                    border: 'black',
+                    background: 'white'
+                }
+            },
+            fixed: true,        // Disable physics simulation.
+            shape: 'circle',
+            font: {
+                face: 'Computer Modern Serif'
+            }
+        },
+        edges: {
+            smooth: false,      // Draw edges as straight lines.
+            width: 1.5
+        },
+        layout: {
+            hierarchical: {
+                enabled: true,  // Use a deterministic layout.
+                direction: 'LR' // Prefer left-right orientation.
+            },
+        }
+    };
+
+    network.setOptions(networkOptions);
 
     return network;
 }
 
+function isSquare(matrix) {
+    var rows = matrix.length;
+    for (var i = 0; i < rows; i++) {
+        if (matrix[i].length != rows) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function matrixToGraph(matrix) {
-    var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i, population: null}));
+    if (!isSquare(matrix)) {
+        throw "Cannot form graph from nonsquare matrix.";
+    }
+    var nodes = Array.from(matrix, (x, i) => ({id: i, label: "Node " + i}));
     var edges = [];
     for (var from = 0; from < matrix.length; from++) {
         for (var to = from; to < matrix[from].length; to++ ) {
