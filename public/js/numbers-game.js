@@ -89,6 +89,38 @@ function isSquare(matrix) {
     return true;
 }
 
+function edgeLabel(entry, transpose_entry) {
+    // I wrote this sloppily on purpose in case it needs to be refactored later. -S
+    var scale = null;
+    var image = null;
+    if (entry == -2) {
+        scale = -1;
+        image = "img/arrowhead-2.png";
+    } else if (entry == -3) {
+        scale = -1;
+        image = "img/arrowhead-3.png";
+    } else if (transpose_entry == -2) {
+        scale = 1;
+        image = "img/arrowhead-2.png";
+    } else if (transpose_entry == -3) {
+        scale = 1;
+        image = "img/arrowhead-3.png";
+    }
+
+    var arrows = {
+        middle: {
+            enabled: true,
+            scaleFactor: scale,
+            type: 'image',
+            src: image,
+            imageHeight: 20,
+            imageWidth: 20
+        }
+    };
+
+    return arrows;
+}
+
 function matrixToGraph(matrix) {
     if (!isSquare(matrix)) {
         throw "Cannot form graph from nonsquare matrix.";
@@ -103,7 +135,13 @@ function matrixToGraph(matrix) {
             // We can be assured that these will always be both zero or both negative for
             // Cartan matrices, but it doesn't hurt to make absolutely sure
             if (entry < 0 && transpose_entry < 0) {
-                edges.push({from: from, to: to, amplitude: -1 * entry, reverseAmplitude: -1 * transpose_entry});
+                var edgeData = {
+                    from: from,
+                    to: to,
+                    arrows: edgeLabel(entry, transpose_entry)
+                }
+                edges.push(edgeData);
+                // edges.push({from: from, to: to, amplitude: -1 * entry, reverseAmplitude: -1 * transpose_entry});
             }
         }
     }
