@@ -5,6 +5,4 @@ services:
     image: node
     ports:
       - "3000:3000"
-    volumes:
-      - /srv/coxeter-group-actions:/srv/app
-    command: ["npm", "run", "dev"]
+    command: ["npm", "run", "start"]
