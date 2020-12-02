@@ -1,61 +1,135 @@
-<!DOCTYPE html>
-<html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-	<title></title>
-	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/font/Serif/cmun-serif.css">
-	<script type="text/javascript" src="/js/vis-network.min.js"></script>
-	<script type="text/javascript" src="/js/numbers-game.js"></script>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!-- 2020-11-29 Sun 20:09 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Introduction to Coxeter Groups</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="John Doe" />
+<link href="css/tufte.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
 
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
-	<link rel="stylesheet" type="text/css" href="css/tufte.min.css">
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
-	<h1>Topics in Coxeter Group Actions</h1>
+<article id="">
+<h1 class="title">Introduction to Coxeter Groups</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org67d7ce2">1. Motivation</a></li>
+<li><a href="#org1077461">2. The integral networked-numbers game</a></li>
+<li><a href="#orgdb25e87">3. Exercises</a></li>
+</ul>
+</div>
+</div>
 
-	<section>
-		<h2>Section heading</h2>
-		<p>Hi there!</p>
-		<p>Here's a neat formula: \(e^{\pi i} + 1 = 0\)</p>
-		<p>Here's another: \[\lim_{n \to \infty} \frac{e^n n!}{n^{n + 1/2}} = \sqrt{2 \pi}\]</p>
-		<p>Here are some action items for Sasha for this week:</p>
-		<ol>
-			<li>Allow the graph labels to be variables. Represent the graph state as a matrix whose columns are nodes and rows are variables. (Will need to fake KaTeX since it won't get inside the canvas.)
-				What I mean: start with
-				\[
-				\begin{bmatrix}
-				1 & 0 & 0 & 0 \\
-				0 & 1 & 0 & 0 \\
-				0 & 0 & 1 & 0 \\
-				0 & 0 & 0 & 1
-				\end{bmatrix},
-				\]
-				representing an initial state where node 0 has population \(a\), node 1 has population \(b\), etc. State updates are (nonelementary) column operations on this matrix, and translating into variable labels is easy.
-			</li>
-			<li>Inline KaTeX is slightly too big for my liking (font-size is 1.21rem.) This is an easy CSS fix.</li>
-			<li>Ideally we'd generate this content out of a \(\TeX\) file, but we're not quite there yet.</li>
-			<li>An fully interactive ING would be cool -- GCM editor, graph editor, etc.</li>
-			<li>Make the arrowheads for non-1 edges.</li>
-			<li>You'll notice the labels below don't center within their nodes. As I found out yesterday, this is a missing feature in Vis.js, so it's probably over our heads.</li>
-			<li>Self-host the assets (CSS, scripts, fonts.)</li>
-		</ol>
-		<figure>
-			<div id="graph" style="border: 1px solid black;"></div>
-			<figcaption>Figure 1: The ING on \(C_4\). (Click!)</figcaption>
-		</figure>
-	</section>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			renderMathInElement(document.body, {});
-		});
-	</script>
-	<script type="text/javascript">
-	var container = document.getElementById('graph');
-	var network = numbersGame("B4", [-2, -1, -1, -1], container);
-	</script>
+<section id="outline-container-org67d7ce2" class="outline-2">
+<h2 id="org67d7ce2"><span class="section-number-2">1</span> Motivation</h2>
+<p>
+We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of <i>networked-numbers games</i>, the first of which appeared in the International Mathematics Olympiad in 1986 ((CITE)):
+</p>
+
+<p>
+<i>To each vertex of a regular pentagon an integer is assigned, so that the sum of all five numbers is positive. If three consecutive vertices are assigned the numbers \(x\), \(y\), \(z\) respectively, and \(y\) &lt; 0, then the following operation is allowed: \(x, y, z\) are replaced by \(x + y, -y, z + y\) respectively. Such an operation is performed repeatedly as long as at least one of the five numbers is negative. Determine whether this procedure necessarily comes to an end after a finite number of steps.</i>
+</p>
+
+<p>
+This game is implemented below.
+</p>
+
+<figure id="pentagonal-ing"></figure>
+<script src="js/vis-network.min.js"></script>
+<script src="js/numbers-game.js"></script>
+<script type="text/javascript">
+    var container = document.getElementById('pentagonal-ing');
+    var network = cyclicNumbersGame(5, [-1, -2, -3, 4, 5], container);
+</script>
+
+<p>
+Observe that the operation described in the problem statement, which we shall call <i>firing a vertex</i>, leaves the sum of all vertex labels unchanged. Therefore, if this sum is initially negative, the procedure never terminates.
+</p>
+
+<p>
+If we disregard the legality of firings, we may observe the following:
+</p>
+<ol class="org-ol">
+<li>Firing the same vertex twice leaves the vertex labels unchanged.</li>
+<li>If \(x\) and \(y\) are adjacent vertices, firing \(x\), \(y\), \(x\) gives the same result as firing \(y, x, y\).</li>
+<li>If \(x\) and \(z\) are nonadjacent vertices, firing \(x, z\) gives the same result as firing \(z, x\).</li>
+</ol>
+
+<p>
+It turns out that we may encode these properties nicely into presentations by generators and relations of certain groups &#x2013; examples of the <i>Coxeter groups.</i> The game is then described by the action of this group on the set \(\mathbb Z^n.\)
+</p>
+</section>
+
+<section id="outline-container-org1077461" class="outline-2">
+<h2 id="org1077461"><span class="section-number-2">2</span> The integral networked-numbers game</h2>
+<p>
+<b>Definition.</b> Let \(G = (V, E)\) be a finite directed acyclic graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \(x\) precedes \(y\) in \(G\). Then \(\mathbf A\) is called an <i>amplitude matrix</i> for \(G\).
+</p>
+
+<p>
+<b>Example.</b> For any
+</p>
+</section>
+
+<section id="outline-container-orgdb25e87" class="outline-2">
+<h2 id="orgdb25e87"><span class="section-number-2">3</span> Exercises</h2>
+<ol class="org-ol">
+<li>Prove the assertions made concerning vertex firings in the introduction.</li>
+</ol>
+</section>
+</article>
+<footer id="" class="status">
+<p class="author">Author: John Doe</p>
+<p class="date">Created: 2020-11-29 Sun 20:09</p>
+</footer>
 </body>
 </html>

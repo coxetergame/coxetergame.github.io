@@ -1,6 +1,7 @@
 class NumbersGame {
-    constructor(algebra, state) {
-        this.matrix = cartanMatrix(algebra);
+    constructor(matrix, state) {
+	this.matrix = matrix;
+        // this.matrix = cartanMatrix(algebra);
 
         var graphData = matrixToGraph(this.matrix);
         this.nodes = new vis.DataSet(graphData.nodes);
@@ -20,8 +21,22 @@ class NumbersGame {
     }
 }
 
-function numbersGame(algebra, state, container) {
-    var game = new NumbersGame(algebra, state);
+function cyclicNumbersGame(length, state, container) {
+    var matrix = tridiagonalMatrix(length, [-1, 2, -1]);
+    matrix[0][length-1] = -1;
+    matrix[length-1][0] = -1;
+
+    var ng = numbersGame(matrix, state, container);
+    console.log(ng.nodes);
+    return ng;
+}
+
+function dynkinNumbersGame(algebra, state, container) {
+    return numbersGame(cartanMatrix(algebra), state, container);
+}
+
+function numbersGame(matrix, state, container) {
+    var game = new NumbersGame(matrix, state);
 
     var graphData = {nodes: game.nodes, edges: game.edges};
     var network = new vis.Network(container, graphData, {});
@@ -63,7 +78,7 @@ function numbersGame(algebra, state, container) {
             }
         },
         edges: {
-            smooth: false,      // Draw edges as straight lines.
+            smooth: true,      // Draw edges as straight lines.
             width: 1.5
         },
         layout: {
@@ -146,6 +161,7 @@ function matrixToGraph(matrix) {
         }
     }
     var graphData = {nodes: nodes, edges: edges};
+    console.log(edges);
     return graphData;
 }
 
