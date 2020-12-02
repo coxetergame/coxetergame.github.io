@@ -1,8 +1,0 @@
-version: "3.3"
-services:
-  web:
-    build: .
-    image: node
-    ports:
-      - "3000:3000"
-    command: ["npm", "run", "start"]

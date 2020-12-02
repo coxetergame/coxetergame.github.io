@@ -1,0 +1,39 @@
+#+TITLE: Introduction to Coxeter Groups
+#+OPTIONS: html-style:nil
+#+HTML_HEAD: <link href="css/tufte.min.css" rel="stylesheet" type="text/css" />
+
+* Motivation
+We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of /networked-numbers games/, the first of which appeared in the International Mathematics Olympiad in 1986 ((CITE)):
+
+/To each vertex of a regular pentagon an integer is assigned, so that the sum of all five numbers is positive. If three consecutive vertices are assigned the numbers \(x\), \(y\), \(z\) respectively, and \(y\) < 0, then the following operation is allowed: \(x, y, z\) are replaced by \(x + y, -y, z + y\) respectively. Such an operation is performed repeatedly as long as at least one of the five numbers is negative. Determine whether this procedure necessarily comes to an end after a finite number of steps./
+
+This game is implemented below.
+
+#+BEGIN_EXPORT html
+<figure id="pentagonal-ing"></figure>
+<script src="js/vis-network.min.js"></script>
+<script src="js/numbers-game.js"></script>
+<script type="text/javascript">
+    var container = document.getElementById('pentagonal-ing');
+    var network = cyclicNumbersGame(5, [-1, -2, -3, 4, 5], container);
+</script>
+#+END_EXPORT
+
+Observe that the operation described in the problem statement, which we shall call /firing a vertex/, leaves the sum of all vertex labels unchanged. Therefore, if this sum is initially negative, the procedure never terminates.
+
+If we disregard the legality of firings, we may observe the following:
+1. Firing the same vertex twice leaves the vertex labels unchanged.
+2. If \(x\) and \(y\) are adjacent vertices, firing \(x\), \(y\), \(x\) gives the same result as firing \(y, x, y\).
+3. If \(x\) and \(z\) are nonadjacent vertices, firing \(x, z\) gives the same result as firing \(z, x\).
+
+It turns out that we may encode these properties nicely into presentations by generators and relations of certain groups -- examples of the /Coxeter groups./ The game is then described by the action of this group on the set \(\mathbb Z^n.\)
+
+* The integral networked-numbers game
+
+*Definition.* Let \(G = (V, E)\) be a finite directed acyclic graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \(x\) precedes \(y\) in \(G\). Then \(\mathbf A\) is called an /amplitude matrix/ for \(G\).
+
+*Example.* For any
+
+* Exercises
+
+1. Prove the assertions made concerning vertex firings in the introduction.
