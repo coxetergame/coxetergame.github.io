@@ -19,6 +19,64 @@ class NumbersGame {
 
         this.state = nextState;
     }
+
+    render(container) {
+        var graphData = {nodes: this.nodes, edges: this.edges};
+        var network = new vis.Network(container, graphData, {});
+        for (var nodeIdx = 0; nodeIdx < this.state.length; nodeIdx++) {
+            this.nodes.update({id: nodeIdx, label: this.state[nodeIdx].toString()});
+        }
+
+        var game = this;
+        network.on("click", function (params) {
+            if (params.nodes.length > 0) {
+                game.fireNode(params.nodes[0]);
+
+                for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
+                    var newProps = {
+                        id: nodeIdx,
+                        label: game.state[nodeIdx].toString()
+                    };
+                    game.nodes.update(newProps);
+                }
+            }
+        });
+
+
+        var networkOptions = {
+            height: '250px',
+            nodes: {
+                borderWidth: 1,
+                color: {
+                    border: 'black',
+                    background: 'white',
+                    highlight: {
+                        border: 'black',
+                        background: 'white'
+                    }
+                },
+                fixed: true,        // Disable physics simulation.
+                shape: 'circle',
+                font: {
+                    face: 'Computer Modern Serif'
+                }
+            },
+            edges: {
+                smooth: true,      // Draw edges as straight lines.
+                width: 1.5
+            },
+            physics: {
+                enabled: false
+            },
+            interaction: {
+                zoomView: false
+            }
+        };
+
+        network.setOptions(networkOptions);
+
+        return network;
+    }
 }
 
 function cyclicNumbersGame(length, state, container) {
@@ -26,71 +84,23 @@ function cyclicNumbersGame(length, state, container) {
     matrix[0][length-1] = -1;
     matrix[length-1][0] = -1;
 
-    var ng = numbersGame(matrix, state, container);
-    console.log(ng.nodes);
-    return ng;
+    var ng = new NumbersGame(matrix, state);
+    var r = 100;
+    for (var nodeIdx = 0; nodeIdx < length; nodeIdx++) {
+        var theta = 2 * Math.PI / length * nodeIdx;
+        ng.nodes.update({id: nodeIdx, x: r * Math.cos(theta), y: r * Math.sin(theta)});
+    }
+
+    var network = ng.render(container);
+    network.setOptions( {height: '100%', width: '100%'} );
+
+    return network;
 }
 
 function dynkinNumbersGame(algebra, state, container) {
-    return numbersGame(cartanMatrix(algebra), state, container);
-}
-
-function numbersGame(matrix, state, container) {
-    var game = new NumbersGame(matrix, state);
-
-    var graphData = {nodes: game.nodes, edges: game.edges};
-    var network = new vis.Network(container, graphData, {});
-    for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
-        game.nodes.update({id: nodeIdx, label: game.state[nodeIdx].toString()});
-    }
-
-    network.on("click", function (params) {
-        if (params.nodes.length > 0) {
-            game.fireNode(params.nodes[0]);
-
-            for (var nodeIdx = 0; nodeIdx < game.state.length; nodeIdx++) {
-                var newProps = {
-                    id: nodeIdx,
-                    label: game.state[nodeIdx].toString()
-                };
-                game.nodes.update(newProps);
-            }
-        }
-    });
-
-
-    var networkOptions = {
-        height: '200px',
-        nodes: {
-            borderWidth: 1,
-            color: {
-                border: 'black',
-                background: 'white',
-                highlight: {
-                    border: 'black',
-                    background: 'white'
-                }
-            },
-            fixed: true,        // Disable physics simulation.
-            shape: 'circle',
-            font: {
-                face: 'Computer Modern Serif'
-            }
-        },
-        edges: {
-            smooth: true,      // Draw edges as straight lines.
-            width: 1.5
-        },
-        layout: {
-            hierarchical: {
-                enabled: true,  // Use a deterministic layout.
-                direction: 'LR' // Prefer left-right orientation.
-            },
-        }
-    };
-
-    network.setOptions(networkOptions);
-
+    var ng = new NumbersGame(cartanMatrix(algebra), state);
+    var network = ng.render(container);
+    network.setOptions( {layout: {hierarchical: {enabled: true, direction: 'LR'}}} );
     return network;
 }
 
@@ -161,7 +171,6 @@ function matrixToGraph(matrix) {
         }
     }
     var graphData = {nodes: nodes, edges: edges};
-    console.log(edges);
     return graphData;
 }
 

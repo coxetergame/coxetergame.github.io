@@ -1,13 +1,14 @@
 #+TITLE: Introduction to Coxeter Groups
-#+OPTIONS: html-style:nil
+#+OPTIONS: html-style:nil toc:nil html-postamble:nil num:nil
 #+HTML_HEAD: <link href="css/tufte.min.css" rel="stylesheet" type="text/css" />
+#+HTML_HEAD: <style>.katex { font-size: 100% !important; }</style>
 
 * Motivation
-We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of /networked-numbers games/, the first of which appeared in the International Mathematics Olympiad in 1986 ((CITE)):
+We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of /networked-numbers games/, the first of which appeared in the International Mathematics Olympiad in 1986:
 
 /To each vertex of a regular pentagon an integer is assigned, so that the sum of all five numbers is positive. If three consecutive vertices are assigned the numbers \(x\), \(y\), \(z\) respectively, and \(y\) < 0, then the following operation is allowed: \(x, y, z\) are replaced by \(x + y, -y, z + y\) respectively. Such an operation is performed repeatedly as long as at least one of the five numbers is negative. Determine whether this procedure necessarily comes to an end after a finite number of steps./
 
-This game is implemented below.
+This game is implemented below. (Refresh the page for a new set of numbers.)
 
 #+BEGIN_EXPORT html
 <figure id="pentagonal-ing"></figure>
@@ -15,25 +16,134 @@ This game is implemented below.
 <script src="js/numbers-game.js"></script>
 <script type="text/javascript">
     var container = document.getElementById('pentagonal-ing');
-    var network = cyclicNumbersGame(5, [-1, -2, -3, 4, 5], container);
+    var sum = Math.floor(Math.random() * 10) + 1;
+    var size = 5;
+    var state = Array(size);
+    state[4] = sum;
+    for (var i = 0; i < size - 1; i++) {
+        state[i] = Math.floor(Math.random() * 11) - 5;
+        state[size - 1] -= state[i];
+    }
+    var network = cyclicNumbersGame(size, state, container);
 </script>
 #+END_EXPORT
 
 Observe that the operation described in the problem statement, which we shall call /firing a vertex/, leaves the sum of all vertex labels unchanged. Therefore, if this sum is initially negative, the procedure never terminates.
 
-If we disregard the legality of firings, we may observe the following:
+If we disregard the legality of firings, we may observe the following.[fn:1]
 1. Firing the same vertex twice leaves the vertex labels unchanged.
 2. If \(x\) and \(y\) are adjacent vertices, firing \(x\), \(y\), \(x\) gives the same result as firing \(y, x, y\).
 3. If \(x\) and \(z\) are nonadjacent vertices, firing \(x, z\) gives the same result as firing \(z, x\).
+
+[fn:1] Exercise 1 asks you to formally prove these observations.
+
 
 It turns out that we may encode these properties nicely into presentations by generators and relations of certain groups -- examples of the /Coxeter groups./ The game is then described by the action of this group on the set \(\mathbb Z^n.\)
 
 * The integral networked-numbers game
 
-*Definition.* Let \(G = (V, E)\) be a finite directed acyclic graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \(x\) precedes \(y\) in \(G\). Then \(\mathbf A\) is called an /amplitude matrix/ for \(G\).
+In this section, we formally define the game presented above.
 
-*Example.* For any
+*Definition.* Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix indexed on \(V\) such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \((x, y)\in E.\) Then \(\mathbf A\) is called an /amplitude matrix/ for \(G.\)
+
+*Example.* For any finite simple graph \(G\) on \(n\) vertices, let \(\mathbf A = 2\mathbf I_n - \mathbf M_G,\) where \(\mathbf I_n\) is the identity matrix and \(\mathbf M_G\) is the adjacency matrix of \(G\). Then \(\mathbf A\) is an amplitude matrix for \(G\).
+
+For the 5-cycle given in the introduction, this matrix is
+\[\begin{bmatrix}
+2 & -1 & 0 & 0 & -1 \\
+-1 & 2 & -1 & 0 & 0 \\
+0 & -1 & 2 & -1 & 0 \\
+0 & 0 & -1 & 2 & -1 \\
+-1 & 0 & 0 & -1 & 2
+\end{bmatrix}.\]
+
+*Definition.* Let \(\mathbf A\) be an amplitude matrix for a finite graph \(G\) on \(n\) vertices. The /integral networked-numbers game on \((G, \mathbf A)\)/ is described as follows:
+
+1. The initial game state is a function \(p_0 : V \to \mathbb Z\) that assigns an integer, called a /population/, to each vertex of \(G.\)
+2. If \(v\) is a vertex of \(G\) with \(p_t(v) < 0,\) the player may /fire/ \(v\), producing a new game state \(p_{t + 1}\) with \[p_{t + 1}(w) \coloneqq p_t(w) - \mathbf A_{vw} p_t(v).\]
+   You might think of the amplitude \(\mathbf A_{vw}\) as "strengthening" the population of \(v\).
+3. The objective of the game is to obtain a state with every vertex population nonnegative. If such a state is obtained, the game stops.
+
+We wish to characterize the conditions under which integral networked-numbers games stop. For instance:
+
+*Proposition.* If \(G\) is the 5-cycle, the integral networked-numbers game on \((G, \mathbf A_G)\) stops if the sum of the initial vertex populations is positive.
+
+*Proof.* Exercise 2.
+
+As we will see, there are several classes of graphs for which the integral networked-numbers games /always/ stop. In the next sections, we will formally prove this assertion.
+
+* Paths and the matrices \(A_n\)
+
+If \(G\) is a path on \(n\) vertices, then \(\mathbf A_n\) is the tridiagonal matrix
+
+\[A_n \coloneqq \begin{bmatrix}
+2  & -1 &        &        &    &    \\
+-1 & 2  & -1     &        &    &    \\
+   & -1 & \ddots & \ddots &    &    \\
+   &    & \ddots & 2      & -1 &    \\
+   &    &        & -1     & 2  & -1 \\
+   &    &        &        & -1 & 2
+\end{bmatrix}.\]
+
+An ING on a path of length 3 is playable below.
+
+#+BEGIN_EXPORT html
+<figure id="path-ing"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing');
+    var network = dynkinNumbersGame("A3", [-1, -3, 5], container);
+</script>
+#+END_EXPORT
+
+Observe that only the left and center vertices are ever fireable. In fact, all possible states are mapped below:
+
+[Diagram.]
+
+Here is another ING on a path of length 3.
+
+#+BEGIN_EXPORT html
+<figure id="path-ing-2"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing-2');
+    var network = dynkinNumbersGame("A3", [-1, 5, -3], container);
+</script>
+#+END_EXPORT
+
+Its possible states are mapped below.
+
+[Diagram.]
+
+Call a diagram like this, whose vertices are possible states and whose edges represent legal firings, a /game graph./ The previous two game graphs take the shapes of a hexagon and a rhombus, respectively. Here is another ING whose game graph is comprised of a hexagon adjoined to a rhombus.[fn:2]
+
+[fn:2] The reader is invited to verify this fact.
+
+
+#+BEGIN_EXPORT html
+<figure id="path-ing-3"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing-3');
+    var network = dynkinNumbersGame("A4", [-1, 7, -3, -2], container);
+</script>
+#+END_EXPORT
+
+We shall see that /any/ game graph of a path, regardless of initial state, is comprised of hexagons and rhombuses. We shall call such graphs /hexarhombic./
+
+* Hexarhombic graphs and strong convergence
+
+* From game graphs to Coxeter groups
+
+* The Dynkin diagrams
+
+
 
 * Exercises
 
 1. Prove the assertions made concerning vertex firings in the introduction.
+2. Let \(G = (V, E)\) be the 5-cycle, and let \(\mathbf A_G\) be its amplitude matrix. Use the symmetry of \(G\) to show that any valid firing decreases the function \[I(t) \coloneqq \sum_{\substack{v \not = w \\ (v, w) \not \in E}} (p_t(v) - p_t(w))^2.\] Conclude that the integral networked-numbers game on \((G, \mathbf A_G)\) stops if \(\sum_{v \in G} p_0(v) > 0.\)
+3. What can be said about the converse of Exercise 2?
+4. Investigate whether Exercise 2 generalizes to cycles of different length.
+5. How does changing the Coxeter exponents \(n(v, w)\) affect the game graph? How does it affect strong convergence?
+
+* References
+
+Eriksson papers here

@@ -3,13 +3,14 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-02 Wed 17:22 -->
+<!-- 2020-12-04 Fri 21:09 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Coxeter Groups</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="John Doe" />
 <link href="css/tufte.min.css" rel="stylesheet" type="text/css" />
+<style>.katex { font-size: 100% !important; }</style>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
 <!--/*--><![CDATA[/*><!--*/
@@ -32,47 +33,29 @@
     /*]]>*///-->
 // @license-end
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
 
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous" ></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+                delimiters: [
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                ]
+        });
 });
 </script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <article id="">
 <h1 class="title">Introduction to Coxeter Groups</h1>
-<div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#orgc723a2b">1. Motivation</a></li>
-<li><a href="#org2851728">2. The integral networked-numbers game</a></li>
-<li><a href="#org783bcf3">3. Exercises</a></li>
-</ul>
-</div>
-</div>
 
-<section id="outline-container-orgc723a2b" class="outline-2">
-<h2 id="orgc723a2b"><span class="section-number-2">1</span> Motivation</h2>
+<section id="outline-container-orgb40baf0" class="outline-2">
+<h2 id="orgb40baf0">Motivation</h2>
 <p>
-We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of <i>networked-numbers games</i>, the first of which appeared in the International Mathematics Olympiad in 1986 ((CITE)):
+We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of <i>networked-numbers games</i>, the first of which appeared in the International Mathematics Olympiad in 1986:
 </p>
 
 <p>
@@ -80,7 +63,7 @@ We introduce a class of groups named for HSM Coxeter which generalize involution
 </p>
 
 <p>
-This game is implemented below.
+This game is implemented below. (Refresh the page for a new set of numbers.)
 </p>
 
 <figure id="pentagonal-ing"></figure>
@@ -88,7 +71,15 @@ This game is implemented below.
 <script src="js/numbers-game.js"></script>
 <script type="text/javascript">
     var container = document.getElementById('pentagonal-ing');
-    var network = cyclicNumbersGame(5, [-1, -2, -3, 4, 5], container);
+    var sum = Math.floor(Math.random() * 10) + 1;
+    var size = 5;
+    var state = Array(size);
+    state[4] = sum;
+    for (var i = 0; i < size - 1; i++) {
+        state[i] = Math.floor(Math.random() * 11) - 5;
+        state[size - 1] -= state[i];
+    }
+    var network = cyclicNumbersGame(size, state, container);
 </script>
 
 <p>
@@ -96,7 +87,9 @@ Observe that the operation described in the problem statement, which we shall ca
 </p>
 
 <p>
-If we disregard the legality of firings, we may observe the following:
+If we disregard the legality of firings, we may observe the following.<label for="1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="1" class="margin-toggle"/><span class="sidenote">
+Exercise 1 asks you to formally prove these observations.
+</span>
 </p>
 <ol class="org-ol">
 <li>Firing the same vertex twice leaves the vertex labels unchanged.</li>
@@ -109,27 +102,169 @@ It turns out that we may encode these properties nicely into presentations by ge
 </p>
 </section>
 
-<section id="outline-container-org2851728" class="outline-2">
-<h2 id="org2851728"><span class="section-number-2">2</span> The integral networked-numbers game</h2>
+<section id="outline-container-org90cf7d5" class="outline-2">
+<h2 id="org90cf7d5">The integral networked-numbers game</h2>
 <p>
-<b>Definition.</b> Let \(G = (V, E)\) be a finite directed acyclic graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \(x\) precedes \(y\) in \(G\). Then \(\mathbf A\) is called an <i>amplitude matrix</i> for \(G\).
+In this section, we formally define the game presented above.
 </p>
 
 <p>
-<b>Example.</b> For any
+<b>Definition.</b> Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix indexed on \(V\) such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \((x, y)\in E.\) Then \(\mathbf A\) is called an <i>amplitude matrix</i> for \(G.\)
+</p>
+
+<p>
+<b>Example.</b> For any finite simple graph \(G\) on \(n\) vertices, let \(\mathbf A = 2\mathbf I_n - \mathbf M_G,\) where \(\mathbf I_n\) is the identity matrix and \(\mathbf M_G\) is the adjacency matrix of \(G\). Then \(\mathbf A\) is an amplitude matrix for \(G\).
+</p>
+
+<p>
+For the 5-cycle given in the introduction, this matrix is
+\[\begin{bmatrix}
+2 & -1 & 0 & 0 & -1 \\
+-1 & 2 & -1 & 0 & 0 \\
+0 & -1 & 2 & -1 & 0 \\
+0 & 0 & -1 & 2 & -1 \\
+-1 & 0 & 0 & -1 & 2
+\end{bmatrix}.\]
+</p>
+
+<p>
+<b>Definition.</b> Let \(\mathbf A\) be an amplitude matrix for a finite graph \(G\) on \(n\) vertices. The <i>integral networked-numbers game on \((G, \mathbf A)\)</i> is described as follows:
+</p>
+
+<ol class="org-ol">
+<li>The initial game state is a function \(p_0 : V \to \mathbb Z\) that assigns an integer, called a <i>population</i>, to each vertex of \(G.\)</li>
+<li>If \(v\) is a vertex of \(G\) with \(p_t(v) < 0,\) the player may <i>fire</i> \(v\), producing a new game state \(p_{t + 1}\) with \[p_{t + 1}(w) \coloneqq p_t(w) - \mathbf A_{vw} p_t(v).\]
+You might think of the amplitude \(\mathbf A_{vw}\) as &ldquo;strengthening&rdquo; the population of \(v\).</li>
+<li>The objective of the game is to obtain a state with every vertex population nonnegative. If such a state is obtained, the game stops.</li>
+</ol>
+
+<p>
+We wish to characterize the conditions under which integral networked-numbers games stop. For instance:
+</p>
+
+<p>
+<b>Proposition.</b> If \(G\) is the 5-cycle, the integral networked-numbers game on \((G, \mathbf A_G)\) stops if the sum of the initial vertex populations is positive.
+</p>
+
+<p>
+<b>Proof.</b> Exercise 2.
+</p>
+
+<p>
+As we will see, there are several classes of graphs for which the integral networked-numbers games <i>always</i> stop. In the next sections, we will formally prove this assertion.
 </p>
 </section>
 
-<section id="outline-container-org783bcf3" class="outline-2">
-<h2 id="org783bcf3"><span class="section-number-2">3</span> Exercises</h2>
+<section id="outline-container-orgfc78755" class="outline-2">
+<h2 id="orgfc78755">Paths and the matrices \(A_n\)</h2>
+<p>
+If \(G\) is a path on \(n\) vertices, then \(\mathbf A_n\) is the tridiagonal matrix
+</p>
+
+<p>
+\[A_n \coloneqq \begin{bmatrix}
+2  & -1 &        &        &    &    \\
+-1 & 2  & -1     &        &    &    \\
+   & -1 & \ddots & \ddots &    &    \\
+   &    & \ddots & 2      & -1 &    \\
+   &    &        & -1     & 2  & -1 \\
+   &    &        &        & -1 & 2
+\end{bmatrix}.\]
+</p>
+
+<p>
+An ING on a path of length 3 is playable below.
+</p>
+
+<figure id="path-ing"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing');
+    var network = dynkinNumbersGame("A3", [-1, -3, 5], container);
+</script>
+
+<p>
+Observe that only the left and center vertices are ever fireable. In fact, all possible states are mapped below:
+</p>
+
+<p>
+[Diagram.]
+</p>
+
+<p>
+Here is another ING on a path of length 3.
+</p>
+
+<figure id="path-ing-2"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing-2');
+    var network = dynkinNumbersGame("A3", [-1, 5, -3], container);
+</script>
+
+<p>
+Its possible states are mapped below.
+</p>
+
+<p>
+[Diagram.]
+</p>
+
+<p>
+Call a diagram like this, whose vertices are possible states and whose edges represent legal firings, a <i>game graph.</i> The previous two game graphs take the shapes of a hexagon and a rhombus, respectively. Here is another ING whose game graph is comprised of a hexagon adjoined to a rhombus.<label for="2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="2" class="margin-toggle"/><span class="sidenote">
+The reader is invited to verify this fact.
+</span>
+</p>
+
+<figure id="path-ing-3"></figure>
+<script type="text/javascript">
+    var container = document.getElementById('path-ing-3');
+    var network = dynkinNumbersGame("A4", [-1, 7, -3, -2], container);
+</script>
+
+<p>
+We shall see that <i>any</i> game graph of a path, regardless of initial state, is comprised of hexagons and rhombuses. We shall call such graphs <i>hexarhombic.</i>
+</p>
+</section>
+
+<section id="outline-container-orgf61b6aa" class="outline-2">
+<h2 id="orgf61b6aa">Hexarhombic graphs and strong convergence</h2>
+</section>
+
+<section id="outline-container-org275f1d8" class="outline-2">
+<h2 id="org275f1d8">From game graphs to Coxeter groups</h2>
+</section>
+
+<section id="outline-container-org9e08355" class="outline-2">
+<h2 id="org9e08355">The Dynkin diagrams</h2>
+</section>
+
+
+
+<section id="outline-container-orgf445d03" class="outline-2">
+<h2 id="orgf445d03">Exercises</h2>
 <ol class="org-ol">
 <li>Prove the assertions made concerning vertex firings in the introduction.</li>
+<li>Let \(G = (V, E)\) be the 5-cycle, and let \(\mathbf A_G\) be its amplitude matrix. Use the symmetry of \(G\) to show that any valid firing decreases the function \[I(t) \coloneqq \sum_{\substack{v \not = w \\ (v, w) \not \in E}} (p_t(v) - p_t(w))^2.\] Conclude that the integral networked-numbers game on \((G, \mathbf A_G)\) stops if \(\sum_{v \in G} p_0(v) > 0.\)</li>
+<li>What can be said about the converse of Exercise 2?</li>
+<li>Investigate whether Exercise 2 generalizes to cycles of different length.</li>
+<li>How does changing the Coxeter exponents \(n(v, w)\) affect the game graph? How does it affect strong convergence?</li>
 </ol>
 </section>
-</article>
-<footer id="" class="status">
-<p class="author">Author: John Doe</p>
-<p class="date">Created: 2020-12-02 Wed 17:22</p>
-</footer>
+
+<section id="outline-container-org6a37159" class="outline-2">
+<h2 id="org6a37159">References</h2>
+<p>
+Eriksson papers here
+</p>
+</section>
+<!-- Footnotes --><!-- 
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+Exercise 1 asks you to formally prove these observations.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+The reader is invited to verify this fact.
+</p></div></div>
+
+ --></article>
 </body>
 </html>
