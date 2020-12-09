@@ -69,7 +69,8 @@ class NumbersGame {
                 enabled: false
             },
             interaction: {
-                zoomView: false
+                dragView: false,   // Disable scrolling
+                zoomView: false    // Disable zooming
             }
         };
 
