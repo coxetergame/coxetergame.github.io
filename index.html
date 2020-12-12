@@ -3,12 +3,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-12-08 Tue 18:14 -->
+<!-- 2020-12-11 Fri 22:50 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Introduction to Coxeter Groups</title>
 <meta name="generator" content="Org mode" />
-<meta name="author" content="John Doe" />
+<meta name="author" content="Sasha V. Malone; DJ Price; Ian Ray" />
 <link href="css/tufte.min.css" rel="stylesheet" type="text/css" />
 <style>.katex { font-size: 100% !important; }</style>
 <script type="text/javascript">
@@ -52,10 +52,10 @@ document.addEventListener("DOMContentLoaded", function() {
 <article id="">
 <h1 class="title">Introduction to Coxeter Groups</h1>
 
-<section id="outline-container-orga1f12a5" class="outline-2">
-<h2 id="orga1f12a5">Motivation</h2>
+<section id="outline-container-org1de4676" class="outline-2">
+<h2 id="org1de4676">Motivation</h2>
 <p>
-We introduce a class of groups named for HSM Coxeter which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of <i>networked-numbers games</i>, the first of which appeared in the International Mathematics Olympiad in 1986:
+We introduce a class of groups named for <a href="https://en.wikipedia.org/wiki/Harold_Scott_MacDonald_Coxeter">H. S. M. Coxeter</a> which generalize involutions in \(\mathbb R^n\). The actions of Coxeter groups arise in the study of <i>networked-numbers games</i>, the first of which appeared in the <a href="https://en.wikipedia.org/wiki/International_Mathematical_Olympiad">International Mathematical Olympiad</a> in 1986:
 </p>
 
 <p>
@@ -104,28 +104,28 @@ If we disregard the legality of firings (firing a vertex is <i>legal</i> if its 
 </p>
 
 <p>
-It turns out that we may encode these properties nicely into presentations by generators and relations of certain groups &#x2013; examples of the <i>Coxeter groups</i><label for="1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="1" class="margin-toggle"/><span class="sidenote">
+It turns out that we may encode these properties nicely into presentations by generators and relations of certain groups &#x2013; examples of the <i>Coxeter groups.</i><label for="1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="1" class="margin-toggle"/><span class="sidenote">
 The game is then described by the action of this group on the set \(\mathbb Z^n.\)
-</span>. Coxeter groups classify, among other things, all regular polygons, polyhedra, and higher-dimensional polyhedra<label for="2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="2" class="margin-toggle"/><span class="sidenote">
+</span> Coxeter groups classify, among other things, all regular polygons, polyhedra, and higher-dimensional polyhedra.<label for="2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="2" class="margin-toggle"/><span class="sidenote">
 Known as <i>polytopes.</i>
-</span>, and are intimately related to
+</span>
 </p>
 </section>
 
 
 
-<section id="outline-container-orgc61a447" class="outline-2">
-<h2 id="orgc61a447">The integral networked-numbers game</h2>
+<section id="outline-container-org4af6226" class="outline-2">
+<h2 id="org4af6226">The integral networked-numbers game</h2>
 <p>
 In this section, we formally define the game presented above.
 </p>
 
 <p>
-<b>Definition.</b> Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix indexed on \(V\) such that \(\mathbf A_{xy} \not = 0\) if \(x = y\) or if \((x, y)\in E.\) Then \(\mathbf A\) is called an <i>amplitude matrix</i> for \(G.\)
+<b>Definition.</b> Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A \in M_{|V|}(\mathbb Z)\) be a matrix indexed on \(V\) such that \(\mathbf A_{xy} = 2\) if \(x = y\); \(\mathbf A_{xy} \not= 0\) if \(x \not= y\) and \((x, y) \in E\); and \(\mathbf A_{xy} = 0\) otherwise. Then \(\mathbf A\) is called an <i>amplitude matrix</i> for \(G.\)
 </p>
 
 <p>
-<b>Example.</b> For any finite simple graph \(G\) on \(n\) vertices, let \(\mathbf A = 2\mathbf I_n - \mathbf M_G,\) where \(\mathbf I_n\) is the identity matrix and \(\mathbf M_G\) is the adjacency matrix of \(G\). Then \(\mathbf A\) is an amplitude matrix for \(G\).
+<b>Example.</b> For any finite simple graph \(G\) on \(n\) vertices, let \(\mathbf A = 2\mathbf I_n - \mathbf M_G,\) where \(\mathbf I_n\) is the identity matrix and \(\mathbf M_G\) is the adjacency matrix of \(G\). Then \(\mathbf A\) is an amplitude matrix for \(G\), which we shall call the <i>unweighted amplitude matrix</i>.
 </p>
 
 <p>
@@ -155,7 +155,7 @@ We wish to characterize the conditions under which integral networked-numbers ga
 </p>
 
 <p>
-<b>Proposition 2.</b> If \(G\) is the 5-cycle, the integral networked-numbers game on \((G, \mathbf A_G)\) stops if the sum of the initial vertex populations is positive.
+<b>Proposition 2.</b> If \(G\) is the 5-cycle and \(\mathbf A\) its unweighted amplitude matrix, the integral networked-numbers game on \((G, \mathbf A)\) stops if the sum of the initial vertex populations is positive.
 </p>
 
 <p>
@@ -163,14 +163,14 @@ We wish to characterize the conditions under which integral networked-numbers ga
 </p>
 
 <p>
-As we will see, there are several classes of graphs for which the integral networked-numbers games <i>always</i> stop. In the next sections, we will formally prove this assertion.
+As we will see, there are several classes of integral networked-numbers games which <i>always</i> stop. In the next sections, we will formally prove this assertion.
 </p>
 </section>
 
-<section id="outline-container-orgadcea31" class="outline-2">
-<h2 id="orgadcea31">Paths and the matrices \(A_n\)</h2>
+<section id="outline-container-org544f37c" class="outline-2">
+<h2 id="org544f37c">Paths and hexarhombic graphs</h2>
 <p>
-If \(G\) is a path on \(n\) vertices, then \(\mathbf A_n\) is the tridiagonal matrix
+If \(G\) is a path on \(n\) vertices, then its unweighted amplitude matrix \(\mathbf A\) is the tridiagonal matrix
 </p>
 
 <p>
@@ -188,6 +188,7 @@ If \(G\) is a path on \(n\) vertices, then \(\mathbf A_n\) is the tridiagonal ma
 An ING on a path of length 3 is playable below.
 </p>
 
+
 <figure id="path-ing"></figure>
 <script type="text/javascript">
     var container = document.getElementById('path-ing');
@@ -198,9 +199,10 @@ An ING on a path of length 3 is playable below.
 Observe that only the left and center vertices are ever fireable. In fact, all possible states are mapped below:
 </p>
 
-<p>
-[Diagram.]
-</p>
+<figure id="hexagon">
+<img src="diagrams/hexagon.png" />
+<span class="marginnote">Vertices are the possible states of the ING in Figure 1. Dashed edges correspond to firing the center vertex; solid edges, the left vertex.</span>
+</figure>
 
 <p>
 Here is another ING on a path of length 3.
@@ -216,9 +218,10 @@ Here is another ING on a path of length 3.
 Its possible states are mapped below.
 </p>
 
-<p>
-[Diagram.]
-</p>
+<figure id="rhombus">
+<img src="diagrams/rhombus.png" />
+<span class="marginnote">Vertices are possible states of the ING in Figure 2. Dashed edges correspond to firing the right vertex; solid edges, the left vertex.</span>
+</figure>
 
 <p>
 Call a diagram like this, whose vertices are possible states and whose edges represent legal firings, a <i>game graph.</i> The previous two game graphs take the shapes of a hexagon and a rhombus, respectively. Here is another ING whose game graph is comprised of two hexagons adjoined to six rhombuses, in the shape of a hexagonal prism.<label for="3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="3" class="margin-toggle"/><span class="sidenote">
@@ -233,22 +236,87 @@ The reader is invited to verify this fact.
 </script>
 
 <p>
-We shall see that <i>any</i> game graph of a path, regardless of initial state, is comprised of hexagons and rhombuses. We shall call such graphs <i>hexarhombic.</i>
+We shall see that <i>any</i> unweighted amplitude matrix, regardless of initial state, gives rise to game graphs that are comprised of hexagons and rhombuses.
+</p>
+
+<p>
+<b>Definition.</b> A finite directed acyclic graph is <i>hexarhombic</i> if whenever \(u, v, w\) are vertices with \(u \to v\), \(u \to w\), one of the following two cases holds:
+</p>
+<ol class="org-ol">
+<li>There is a vertex \(x\), such that \(v \to x\) and \(y \to x\).</li>
+<li>There are vertices \(x, y, z\) such that \(v \to x \to z\) and \(w \to y \to z.\)</li>
+</ol>
+</section>
+
+
+<section id="outline-container-org153aedf" class="outline-2">
+<h2 id="org153aedf">Unweighted graphs and strong convergence</h2>
+<p>
+The reader should observe that in each of the INGs presented in the previous section, the final state and the number of steps taken to reach it are the same regardless of the player&rsquo;s choice of firings. In game theory, this property is called <i>strong convergence</i>; we formally define it now.
+</p>
+
+<p>
+<b>Definition.</b> An ING is said to be <i>strongly convergent</i> if for any initial state \(p_0\), exactly one of the following holds:
+</p>
+
+<ol class="org-ol">
+<li>there is a nonnegative integer \(n\) such that the game stops after any sequence of exactly \(n\) legal firings, and the final state \(p_n\) is independent of the sequence of firings; or</li>
+<li>no sequence of legal firings causes the game to stop.</li>
+</ol>
+
+<p>
+From the game graph of a given ING, it is easy to determine whether condition 1 holds;<label for="4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="4" class="margin-toggle"/><span class="sidenote">
+For a given initial state.
+</span> every path from the initial state to the final state will have length \(n\).<label for="5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="5" class="margin-toggle"/><span class="sidenote">
+In the sense that it has \(n\) edges.
+</span> If condition 2 holds, the game graph is infinite or cyclic.
+</p>
+
+<p>
+<b>Proposition 3.</b> If the game graph of an ING with a given initial state is hexarhombic, then the ING is strongly convergent from that state.
+</p>
+
+<p>
+<i>Proof.</i> It suffices to show that hexarhombic graphs have the property remarked on above. Let \(G\) be a hexarhombic graph. Since \(G\) is finite and acyclic, it has a vertex with no successors. Call this vertex \(z.\) We claim that for any other vertex \(v \in G\) from which \(z\) is reachable, there is a positive integer \(d(v)\) such that every path of length \(d(v)\) beginning at \(v\) ends at \(c.\)
+</p>
+
+<p>
+Suppose \(y \to z.\) If \(y\) has another successor \(y'\), then by the hexarhombicity of \(G\) there must be a vertex \(z'\) with \(y' \to z'\), \(z \to z'\), but by assumption \(z\) has no successors. Therefore every path of length \(1\) beginning at \(y\) ends at \(z\), so \(d(y) = 1.\)
+</p>
+
+<p>
+Suppose \(x \to y \to z\). We claim \(d(x) = 2\). It suffices to show that if \(x \to y',\) then \(d(y') = 1;\) i.e., \(y' \to z.\) Suppose otherwise. Then clearly \(y' \not = y,\) so there is a vertex \(z' \not= z\) with \(y' \to z'\) and \(y \to z'.\) But \(y \to z\) and \(y \to z'\), which contradicts the terminality of \(z.\)
+</p>
+
+<p>
+Now let \(k \geq 2\) be a positive integer, and assume inductively that whenever \(d(v) = k' < k\) and \(u \to v\) we have \(d(u) = k' + 1.\)
+</p>
+
+<p>
+Now suppose inductively that \(u \to v\) and \(d(v) = k.\) We claim that \(d(u) = k + 1.\) Let \(v'\) be a successor of \(u\) with \(v' \not = v\); it suffices to show that \(d(v') = k.\) There are now two cases.
+</p>
+
+<ol class="org-ol">
+<li>There is a vertex \(x\) with \(v' \to x, v \to x.\) Suppose \(d(x) \not = k - 1\); then there is a path from \(x\) to \(z\) not of length \(k - 1\), which can be extended to give a path from \(v\) to \(z\) not of length \(k\). This violates our assumption that \(d(v) = k,\) so we must have \(d(x) = k - 1,\) and by the inductive hypothesis, \(d(v') = k.\)</li>
+<li>There are vertices \(w, x, y\) with \(v' \to w \to y\) and \(v \to x \to y.\) As before, we must have \(d(x) = k - 1\) and \(d(y) = k - 2.\) Then by the inductive hypothesis \(d(w) = k - 1\) and \(d(v') = k.\)</li>
+</ol>
+
+<p>
+This completes the induction. Translating the result we have just shown into the language of INGs, it is apparent that for any starting position \(v\) that gives rise to a hexarhombic game graph, the terminal position and the number of steps required to reach it is unique.<label for="6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="6" class="margin-toggle"/><span class="sidenote">
+Although it may depend on \(v.\)
+</span>
 </p>
 </section>
 
-<section id="outline-container-org8c1e764" class="outline-2">
-<h2 id="org8c1e764">Hexarhombic graphs and strong convergence</h2>
-</section>
 
-<section id="outline-container-orgb2917ba" class="outline-2">
-<h2 id="orgb2917ba">From game graphs to Coxeter groups</h2>
+<section id="outline-container-org645ce01" class="outline-2">
+<h2 id="org645ce01">From game graphs to Coxeter groups</h2>
 <p>
 We now formalize the increasingly apparent group structure of an ING.
 </p>
 
 <p>
-<b>Definition.</b> A <i>Coxeter group</i> is a group \(G\) with presentation by generators and relations \[G = \{\{x_i\}_{i \in I} \mid (x_ix_j)^{n(i, j)} = e\},\]
+<b>Definition.</b> A <i>Coxeter group</i> is a group \(G\) with presentation by generators and relations \[G = \left\{\{x_i\}_{i \in I} \mid (x_ix_j)^{n(i, j)} = e\right\},\]
 where \(I\) is an index set and \(n : I \times I \to \mathbb N \cup \{\infty\}\) is such that \(n(i, i) = 1\) and \(n(i, j) \geq 2\) if \(i \not = j.\)
 </p>
 
@@ -258,7 +326,7 @@ where \(I\) is an index set and \(n : I \times I \to \mathbb N \cup \{\infty\}\)
 <ol class="org-ol">
 <li>The group \(\mathbb Z_2^k\) is a Coxeter group, with \(k\) generators \(x_{1, \dots, k}.\) For any \(1 \leq i < j \leq k,\) \(n(i, j) = 2.\)</li>
 <li>The dihedral group \(D_{2k}\) is a Coxeter group whose generating set is comprised of \(k\) reflections \(\{L_1, \dots, L_k\}\).</li>
-<li>Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A\) be an amplitude matrix for \(G.\) Let \(x_v\) represent the action of firing node \(v\), irrespective of whether doing so is legal. Then, by Proposition 1, the \(x_v\) generate a Coxeter group with \[n(v, w) = \begin{cases}2, &(v, w) \in E, \\3, & (v, w) \not \in E.\end{cases}\]</li>
+<li>Let \(G = (V, E)\) be a finite simple graph, and let \(\mathbf A\) be its unweighted amplitude matrix. Let \(x_v\) represent the action of firing node \(v\), irrespective of whether doing so is legal. Then, by Proposition 1, the \(x_v\) generate a Coxeter group with \[n(v, w) = \begin{cases}2, &(v, w) \in E, \\3, & (v, w) \not \in E.\end{cases}\]</li>
 </ol>
 
 <p>
@@ -266,7 +334,7 @@ The natural intuition for a generic Coxeter group is the transformations of spac
 </p>
 
 <p>
-Example 3, which is of course the most pertinent to us, can also be thought of as a reflection group. Consider the ING on the length-3 chain, as above.<label for="4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="4" class="margin-toggle"/><span class="sidenote">
+Example 3, which is of course the most pertinent to us, can also be thought of as a reflection group. Consider the ING on the length-3 chain, as above.<label for="7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="7" class="margin-toggle"/><span class="sidenote">
 Exercise 7 asks you to do this for a generic ING.
 </span> Let \(p_0 = \begin{bmatrix} a & b & c \end{bmatrix}^\top\) be completely arbitrary. Firing the node whose population is \(a\) gives \(p_1 = \begin{bmatrix}-a & a + b & c\end{bmatrix}^\top.\) We can write this as a linear transformation:
 </p>
@@ -291,56 +359,102 @@ and to calculate the equations of the planes in \(\mathbb R^3\) fixed by each of
 </p>
 
 <p>
-It turns out that our game graphs are subsets of the Cayley graphs of the Coxeter group associated with that ING!
+The following proposition, which Exercise 8 asks you to show, generalizes hexarhombicity to &ldquo;polygonality.&rdquo;
 </p>
 
 <p>
-Eriksson completely characterized the strongly convergent INGs as follows.<label for="5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="5" class="margin-toggle"/><span class="sidenote">
-In fact, Eriksson showed a stronger result which holds for networked-numbers games whose amplitudes and populations may be real numbers.
+<b>Proposition 4.</b> Consider the ING on \((G, \mathbf A)\). Suppose the set \(\{x_v\}_{v \in G},\) as defined above, generates a Coxeter group defined by \(n : V \times V \to \mathbb N \cup \{\infty\}.\) Suppose also that from any position \(p\) with \(p(v), p(w) < 0\) for some vertices \(v, w,\) the firing sequences
+\[
+\underbrace{v, w, v, w...}_{n(v, w)}; \quad
+\underbrace{w, v, w, v...}_{n(v, w)}
+\]
+are both legal. Then the ING is strongly convergent from \(p.\)
+</p>
+
+
+<p>
+The following characterization of strongly convergent INGs is due to Eriksson.<label for="8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="8" class="margin-toggle"/><span class="sidenote">
+The converse of this theorem also holds, but is beyond our scope. In fact, Eriksson showed a stronger result which holds for networked-numbers games whose amplitudes and populations may be real numbers.
 </span>
 </p>
 
 <p>
-<b>Theorem.</b> [Eriksson 1996] The ING on \((G, \mathbf A)\) is strongly convergent iff whenever \((v, w)\) is an edge, then \(\mathbf A_{vw}\mathbf A_{wv} > 0.\)
+<b>Theorem.</b> [Eriksson 1996] The ING on \((G, \mathbf A)\) is strongly convergent if \(\mathbf A_{vw}, \mathbf A_{wv} < 0 \) for any edge \((v, w).\)
+</p>
+
+<p>
+<i>Proof.</i> It will suffice to show that the set \(\{x_v\}_{v \in G}\) generates a Coxeter group. The behavior of this group turns out to depend on the product \(\alpha(v, w) \coloneqq \mathbf A_{vw}\mathbf A_{wv},\) which is a positive integer by assumption. We shall treat only the case \(\alpha(v, w) = 1;\) the other cases are left as exercises.
+</p>
+
+<p>
+If \(\alpha(v, w) = 1\), we must have \(\mathbf A_{vw} = \mathbf A_{wv} = -1.\) Let \(x \in G\) be adjacent to exactly one of \(v, w\) &#x2014; assume \(v\) without loss of generality &#x2014; and consider the actions of firing \(v\) and \(w\) as \(3 \times 3\) matrices, indexed in the order \(x, v, w\):
+\[X_v = \begin{bmatrix} 1 & -A_{vx} & 0 \\ 0 & -1 & 0 \\ 0 & -A_{vw} & 1\end{bmatrix}, \quad X_w = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & -A_{wv} \\ 0 & 0 & -1 \end{bmatrix}. \]
+</p>
+
+<p>
+Note that \(X_v^2 = X_w^2 = \mathbf I_3.\) Now consider the products
+</p>
+
+<p>
+\(\begin{aligned}
+X_wX_v &= \begin{bmatrix} 1 & -\mathbf A_{vx} & 0 \\ 0 & \alpha(v, w) - 1 & -\mathbf A_{wv} \\ 0 & \mathbf A_{vw} & -1 \end{bmatrix}
+        = \begin{bmatrix} 1 & -\mathbf A_{vx} & 0 \\ 0 & 0 & 1 \\ 0 & -1 & -1 \end{bmatrix}; \\
+X_vX_w &= \begin{bmatrix} 1 & -\mathbf A_{vx} & \mathbf A_{vx}\mathbf A_{wv} \\ 0 & - 1 & \mathbf A_{wv} \\ 0 & -\mathbf A_{vw} & \alpha(v, w) - 1 \end{bmatrix}
+        = \begin{bmatrix} 1 & -\mathbf A_{vx} & -\mathbf A_{vx} \\ 0 & -1 & -1 \\ 0 & 1 & 0 \end{bmatrix}; \\
+X_wX_vX_w &= \begin{bmatrix} 1 & -\mathbf A_{vx} & \mathbf A_{vx}\mathbf A_{wv} \\ 0 & \alpha(v, w) - 1 & \mathbf A_{wv}(2 - \alpha(v, w)) \\ 0 & \mathbf A_{vw} & 1 - \alpha(v, w) \end{bmatrix}; \\
+X_vX_wX_v &= \begin{bmatrix} 1 & -\mathbf A_{vx}(\alpha(v, w)) & \mathbf A_{vx}\mathbf A_{wv} \\ 0 & 1 - \alpha(v, w) & \mathbf A_{wv} \\ 0 & \mathbf A_{vw}(2 - \alpha(v, w)) & \alpha(v, w) - 1 \end{bmatrix}.
+\end{aligned}\)
+</p>
+
+<p>
+Observe that
+\[
+X_vX_wX_v = \begin{bmatrix} 1 & -\mathbf A_{vx} & -\mathbf A_{vx} \\ 0 & 0 & -1 \\ 0 & -1 & 0\end{bmatrix} = X_wX_vX_w,
+\]
+from which we have \((X_vX_w)^3 = (X_wX_v)^3 = \mathbf I_3.\)
+</p>
+
+<p>
+Furthermore, observe that the \(v\)-rows of \(X_w\) and \(X_wX_v\), as well as the \(w\)-rows of \(X_v\) and \(X_vX_w\), are nonpositive and not the zero vector. Therefore, if we begin from a position in which \(v\) and \(w\) are both fireable, the firing sequences \(v, w, v\) and \(w, v, w\) are legal and form a hexagon in the game graph. Similarly, simultaneously fireable nonadjacent vertices form rhombuses. So the game graph arising from an unweighted amplitude matrix is hexarhombic, and its associated ING strongly converges by Proposition 3.
+</p>
+
+<p>
+Similar arguments go through for the cases \(\alpha(v, w) \in \{2, 3\}\) (Exercise 9) and \(\alpha(v, w) \geq 4\) (Exercise 10.) Thus, the set \(\{X_v\}_{v \in G}\) generates a Coxeter group. By the result of Exercise 7, the group generated by \(\{x_v\}_{v \in G}\) is also Coxeter. So by Proposition 4, the ING is strongly convergent.
 </p>
 </section>
 
-
-<section id="outline-container-org85bf6a6" class="outline-2">
-<h2 id="org85bf6a6">The Dynkin diagrams</h2>
-</section>
-
-
-<section id="outline-container-org0a61371" class="outline-2">
-<h2 id="org0a61371">Exercises</h2>
+<section id="outline-container-org4055bd4" class="outline-2">
+<h2 id="org4055bd4">Exercises</h2>
 <ol class="org-ol">
 <li>Prove Proposition 1.</li>
-<li>Let \(G = (V, E)\) be the 5-cycle, and let \(\mathbf A_G\) be its amplitude matrix. Use the symmetry of \(G\) to show that any valid firing decreases the function \[I(t) \coloneqq \sum_{\substack{v \not = w \\ (v, w) \not \in E}} (p_t(v) - p_t(w))^2.\] Conclude that the integral networked-numbers game on \((G, \mathbf A_G)\) stops if \(\sum_{v \in G} p_0(v) > 0.\)</li>
+<li>Let \(G = (V, E)\) be the 5-cycle, and let \(\mathbf A\) be its unweighted amplitude matrix. Use the symmetry of \(G\) to show that any valid firing decreases the function \[I(t) \coloneqq \sum_{\substack{v \not = w \\ (v, w) \not \in E}} (p_t(v) - p_t(w))^2.\] Conclude that the integral networked-numbers game on \((G, \mathbf A)\) stops if \(\sum_{v \in G} p_0(v) > 0.\)</li>
 <li>What can be said about the converse of Exercise 2?</li>
 <li>Investigate whether Exercise 2 generalizes to cycles of different length.</li>
 <li>Verify that \(D_{2k}\) is a Coxeter group with generating set given by its reflections. For reflections \(L_i, L_j\), what is \(n(i, j)\)?</li>
 <li>Show that the set of rigid motions of any Platonic solid forms a Coxeter group.</li>
-<li>Consider the integral networked-numbers game on \((G, \mathbf A_G).\) Write the action of firing an arbitrary vertex \(v \in V\) as a linear transformation \(X_v : \mathbb Z^{|V|} \to \mathbb Z^{|V|}.\) Show by direct calculation that the function \(\phi\) that maps \(x_v \mapsto X_v\) is a homomorphism from the Coxeter group generated by \(x_v\) onto the subgroup of \(GL(|V|, \mathbb Z)\) generated by \(X_v.\)<label for="6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="6" class="margin-toggle"/><span class="sidenote">
-Such a homomorphism is called a <i>representation</i>.
+<li>Consider the integral networked-numbers game on \((G, \mathbf A_G).\) Write the action of firing an arbitrary vertex \(v \in V\) as a linear transformation \(X_v : \mathbb Z^{|V|} \to \mathbb Z^{|V|}.\) Show by direct calculation that the function \(\phi\) that maps \(x_v \mapsto X_v\) is an injective homomorphism from the Coxeter group generated by \(x_v\) onto the subgroup of \(GL(|V|, \mathbb Z)\) generated by \(X_v.\)<label for="9" class="margin-toggle sidenote-number"></label><input type="checkbox" id="9" class="margin-toggle"/><span class="sidenote">
+Such a homomorphism is called a <i>faithful representation</i>.
 </span></li>
+<li>Generalize the proof of Proposition 3 from rhombuses and hexagons to arbitrary \(2k\)-gons. Use this result to prove Proposition 4. Make sure to cover the case \(n(v, w) = \infty.\)</li>
+<li>Why does it suffice to consider only \(v, w,\) and \(x\) in the proof of the theorem?</li>
+<li>Using the setup from the theorem, show that if \(\alpha(v, w) = 2\), \((X_vX_w)^2 = (X_wX_v)^2 = \mathbf I_3\), and if \(\alpha(v, w) = 3,\) \((X_vX_w)^3 = (X_wX_v)^3 = \mathbf I_3.\) Show that the corresponding firing sequences are legal in positions where \(v, w\) are both fireable.</li>
+<li>Using the setup from the theorem, show that if \(\alpha(v, w) \geq 4,\) then \(X_vX_w\) and \(X_wX_v\) have infinite order in \(GL(|V|, \mathbb Z),\) and in positions where \(v, w\) are both fireable, any sequence \(v, w, v, ...\) or \(w, v, w, ...\) is legal. Conclude that such positions diverge.</li>
+<li>Show that each of the game graphs on length-3 paths given in this chapter can be realized as minors of the Cayley graph of the Coxeter group generated by \(\{X_a, X_b, X_c\},\) which corresponds to the <a href="https://en.wikipedia.org/wiki/Truncated_octahedron">truncated octahedron</a>. To which polytopes do the other INGs correspond?</li>
 </ol>
 </section>
 
 
-<section id="outline-container-org3989ca3" class="outline-2">
-<h2 id="org3989ca3">References</h2>
+<section id="outline-container-org6e54162" class="outline-2">
+<h2 id="org6e54162">References</h2>
 <ol class="org-ol">
 <li>Kimmo Eriksson, &ldquo;<a href="https://www.sciencedirect.com/science/article/pii/S0195669896900311">Strong Convergence and a Game of Numbers</a>,&rdquo; <i>European Journal of Combinatorics</i> 17 (1996): 379-390.</li>
 <li>Eriksson, &ldquo;<a href="https://www.sciencedirect.com/science/article/pii/0012365X94001312">The Numbers Game and Coxeter Groups</a>,&rdquo; <i>Discrete Mathematics</i> 139 (1995): 155-166.</li>
+<li>Eriksson, &ldquo;<a href="https://www.sciencedirect.com/science/article/pii/002437959290274E">Convergence of Mozes&rsquo;s Game of Numbers</a>,&rdquo; <i>Linear Algebra and its Applications</i> 166 (1992): 151-165.</li>
 </ol>
 </section>
 
-<section id="outline-container-org3b15256" class="outline-2">
-<h2 id="org3b15256">Further reading</h2>
-<p>
-Rob papers here
-</p>
-
+<section id="outline-container-org13463a3" class="outline-2">
+<h2 id="org13463a3">Further reading</h2>
 <p>
 Humphreys, <i>Coxeter groups and reflection groups.</i>
 </p>
@@ -367,15 +481,27 @@ The reader is invited to verify this fact.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
-Exercise 7 asks you to do this for a generic ING.
+For a given initial state.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
-In fact, Eriksson showed a stronger result which holds for networked-numbers games whose amplitudes and populations may be real numbers.
+In the sense that it has \(n\) edges.
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.6" class="footnum" href="#fnr.6">6</a></sup> <div class="footpara"><p class="footpara">
-Such a homomorphism is called a <i>representation</i>.
+Although it may depend on \(v.\)
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.7" class="footnum" href="#fnr.7">7</a></sup> <div class="footpara"><p class="footpara">
+Exercise 7 asks you to do this for a generic ING.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.8" class="footnum" href="#fnr.8">8</a></sup> <div class="footpara"><p class="footpara">
+The converse of this theorem also holds, but is beyond our scope. In fact, Eriksson showed a stronger result which holds for networked-numbers games whose amplitudes and populations may be real numbers.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.9" class="footnum" href="#fnr.9">9</a></sup> <div class="footpara"><p class="footpara">
+Such a homomorphism is called a <i>faithful representation</i>.
 </p></div></div>
 
  --></article>
