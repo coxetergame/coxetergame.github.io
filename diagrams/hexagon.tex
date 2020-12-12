@@ -1,0 +1,26 @@
+\documentclass{standalone}
+\usepackage[pdf]{pstricks}
+
+\begin{document}
+\begin{pspicture}(-1.5, -1.5)(4.5, 1.5)
+\psdot(0,0)
+\psdot(1,1)
+\psdot(2,1)
+\psdot(3,0)
+\psdot(1,-1)
+\psdot(2,-1)
+\psdot(3,0)
+\psline[linestyle=dashed]{->}(0,0)(1,1)
+\psline{->}(1,1)(2,1)
+\psline[linestyle=dashed]{->}(2,1)(3,0)
+\psline{->}(0,0)(1,-1)
+\psline[linestyle=dashed]{->}(1,-1)(2,-1)
+\psline{->}(2,-1)(3,0)
+\uput[180](0,0){\tiny -1, -3, 5}
+\uput[180](1,1){\tiny -4, 3, 2}
+\uput[0](2,1){\tiny 4, -1, 2}
+\uput[180](1,-1){\tiny 1, -4, 5}
+\uput[0](2,-1){\tiny -3, 4, 1}
+\uput[0](3,0){\tiny 3, 1, 1}
+\end{pspicture}
+\end{document}

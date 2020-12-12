@@ -1,0 +1,19 @@
+\documentclass{standalone}
+\usepackage[pdf]{pstricks}
+
+\begin{document}
+\begin{pspicture}(-1.5, -1.5)(3.5, 1.5)
+\psdot(0,0)
+\psdot(1,1)
+\psdot(2,0)
+\psdot(1,-1)
+\psline{->}(0,0)(1,1)
+\psline[linestyle=dashed]{->}(1,1)(2,0)
+\psline[linestyle=dashed]{->}(0,0)(1,-1)
+\psline{->}(1,-1)(2,0)
+\uput[180](0,0){\tiny -1, 5, -3}
+\uput[180](1,1){\tiny 1, 4, -3}
+\uput[180](1,-1){\tiny -1, 2, 3}
+\uput[0](2,0){\tiny 1, 1, 3}
+\end{pspicture}
+\end{document}
